@@ -16,10 +16,12 @@ public class Character
     public CharacterType ChartacterType;
     public Sprite CharacterSprite;
     public RuntimeAnimatorController AnimatorController;
+
 }
 
 public class GameManager : MonoBehaviour
 {
+
     public static GameManager Instance;
     
     public List<Character> CharacterList = new List<Character>();
@@ -28,13 +30,20 @@ public class GameManager : MonoBehaviour
     public Text PlayerName;
 
 
+
     private void Awake()
     {
-        if(Instance == null)
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
         else
+        {
             Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
+    
 
     public void SetCharacter(CharacterType characterType,string name)
 
@@ -43,5 +52,12 @@ public class GameManager : MonoBehaviour
 
         PlayerAnimator.runtimeAnimatorController = character.AnimatorController;
         PlayerName.text = name;
+    }
+
+    
+
+    public void SaveData()
+    {
+        string data = JsonUtility.ToJson(CharacterList);
     }
 }
